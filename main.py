@@ -38,23 +38,46 @@ def clean(A):
     for x in A:
         try:
             B.append(float(x))
-        except ValueError:
+        except (ValueError,TypeError):
             if x == 'ND':
-                B.append()
+                B.append(x)
+            else:
+                print(f"Warning: Invalid input '{x}'")
+                B.append("ND")
             continue
     return B
 
 #simple linear regression
 def reg(data):
-    b = coeffCorr(data["X"], data["Y"]) * (stddev(data["Y"])/stddev(data["X"]))
+    sY = stddev(data["Y"])
+    sX = stddev(data["X"])
+    if (sX == 0):
+        print("Invalid Data")
+        return None
+    if (sY == 0):
+        return {"b":0,"a": mean(data["Y"])}
+    row = coeffCorr(data["X"], data["Y"])
+    b =  row * (sY/sX)
     a = mean(data["Y"]) - b*mean(data["X"])  
     return {"b": b, "a": a}
-def reg2(data):
+def reg2(data): #not safe, do not use
     b = coeffCorr2(data["X"], data["Y"]) * (stddev(data["Y"])/stddev(data["X"]))
     a = mean(data["Y"]) - b*mean(data["X"])  
     return {"b": b, "a": a}
 
-
+def Prd(data,info):
+        YPrd,XPrd = {},{}
+        for x in data["X"]:
+            YPrd[x] = info["a"] + info["b"] * x
+        for y in data["Y"]:
+            XPrd[y] = (y - info["a"]) / info["b"]
+        return {"Y":YPrd,"X": XPrd}
+    
+def line(data,info):
+    y ={}
+    for x in data:
+        y[x]  = info["a"] + info["b"] * x
+    return y
 ##collect data
 X = []
 Y = []
@@ -73,17 +96,29 @@ print("Type '...' to stop or 'ND' for no data")
 while i != "...":
     i = input(f"Enter Y{len(Y)}: ")
     Y.append(i)
-
 ##clean data
 
 #convert to float
 X = clean(X)
 Y = clean(Y)
-
-#match sizes
-diff = len(X) - len(Y)
 Ypopped = []
 Xpopped = []
+for i in range(len(X)-1,0,-1):
+    if X[i] == 'ND':
+        X.pop(i)
+        try:
+            Ypopped.append(Y.pop(i))
+        except:
+            continue
+for i in range(len(Y)-1,0,-1):
+    if Y[i] == 'ND':
+        Y.pop(i)
+        try:
+            Xpopped.append(X.pop(i))
+        except:
+            continue
+#match sizes
+diff = len(X) - len(Y)
 if diff > 0:
     for i in range(len(X)-1,len(X)-diff-1,-1):
         Xpopped.append(X.pop(i))
@@ -95,16 +130,10 @@ data = {"X":X,"Y":Y}
 del X,Y
 ##perform regression
 info = reg(data)
-
-YPrd = {}
-XPrd = {}
-
-for x in Xpopped:
-    YPrd[x] = info["a"] + info["b"] * x
-
-for y in Ypopped:
-    XPrd[y] = (y - info["a"]) / info["b"]
+if info is None:
+    raise SystemExit("Regression could not be performed.")
     
+YPrd = line(Xpopped, info)
 del Xpopped,Ypopped
 #print info on console
 clear()
@@ -112,8 +141,12 @@ print(f"ŷ = {info['b']:.3f}x + {info['a']:.3f}")
 cov = COV(data["X"],data["Y"])
 stddevX = stddev(data["X"])
 stddevY = stddev(data["Y"])
-r = coeffCorr(data["X"], data["Y"])
-R2 = r**2
+if stddevX == 0 or stddevY == 0:
+    r = None
+    R2 = None
+else:
+    r = coeffCorr(data["X"], data["Y"])
+    R2 = r**2
 print(f"Covariance: {cov}")
 print(f"Standared Deviation X: {stddevX}")
 print(f"Standared Deviation Y: {stddevY}")
@@ -125,8 +158,6 @@ plt.figure(figsize=(9, 6))
 
 # Scatter plot
 plt.scatter(data["X"], data["Y"],color="blue", label="Observed values")
-
-plt.scatter(XPrd.values(), XPrd.keys(),color="green", marker="X", label="Predicted missing X")
 
 plt.scatter(YPrd.keys(), YPrd.values(),color="orange", marker="X", label="Predicted missing Y")
 
