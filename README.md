@@ -104,11 +104,11 @@ The program implements:
 
 
 
-\\\[
+$\\\[
 
 \\bar{x}=\\frac{1}{n}\\sum\_{i=1}^{n}x\_i
 
-\\]
+\\]$
 
 
 
@@ -116,13 +116,13 @@ The program implements:
 
 
 
-\\\[
+$\\\[
 
 \\operatorname{Cov}(X,Y)=
 
 \\frac{1}{n}\\sum\_{i=1}^{n}(x\_i-\\bar{x})(y\_i-\\bar{y})
 
-\\]
+\\]$
 
 
 
@@ -130,11 +130,11 @@ The program implements:
 
 
 
-\\\[
+$\\\[
 
 \\sigma\_X=\\sqrt{\\frac{1}{n}\\sum\_{i=1}^{n}(x\_i-\\bar{x})^2}
 
-\\]
+\\]$
 
 
 
@@ -142,11 +142,11 @@ The program implements:
 
 
 
-\\\[
+$\\\[
 
 r=\\frac{\\operatorname{Cov}(X,Y)}{\\sigma\_X\\sigma\_Y}
 
-\\]
+\\]$
 
 
 
@@ -158,11 +158,11 @@ The program calculates the regression equation:
 
 
 
-\\\[
+$\\\[
 
 \\hat{y}=a+bx
 
-\\]
+\\]$
 
 
 
@@ -170,19 +170,19 @@ Where:
 
 
 
-\\\[
+$\\\[
 
 b=r\\frac{\\sigma\_Y}{\\sigma\_X}
 
-\\]
+\\]$
 
 
 
-\\\[
+$\\\[
 
 a=\\bar{y}-b\\bar{x}
 
-\\]
+\\]$
 
 
 

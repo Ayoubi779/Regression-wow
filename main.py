@@ -60,19 +60,11 @@ def reg(data):
     b =  row * (sY/sX)
     a = mean(data["Y"]) - b*mean(data["X"])  
     return {"b": b, "a": a}
+
 def reg2(data): #not safe, do not use
     b = coeffCorr2(data["X"], data["Y"]) * (stddev(data["Y"])/stddev(data["X"]))
     a = mean(data["Y"]) - b*mean(data["X"])  
     return {"b": b, "a": a}
-
-def Prd(data,info):
-        YPrd,XPrd = {},{}
-        for x in data["X"]:
-            YPrd[x] = info["a"] + info["b"] * x
-        for y in data["Y"]:
-            XPrd[y] = (y - info["a"]) / info["b"]
-        return {"Y":YPrd,"X": XPrd}
-    
 def line(data,info):
     y ={}
     for x in data:
@@ -101,15 +93,13 @@ while i != "...":
 #convert to float
 X = clean(X)
 Y = clean(Y)
-Ypopped = []
+
 Xpopped = []
+
 for i in range(len(X)-1,0,-1):
     if X[i] == 'ND':
         X.pop(i)
-        try:
-            Ypopped.append(Y.pop(i))
-        except:
-            continue
+        
 for i in range(len(Y)-1,0,-1):
     if Y[i] == 'ND':
         Y.pop(i)
@@ -124,7 +114,7 @@ if diff > 0:
         Xpopped.append(X.pop(i))
 elif diff < 0:
     for i in range(len(Y)-1,len(Y)+diff-1,-1):
-        Ypopped.append(Y.pop(i))
+        Y.pop(i)
 ##merge
 data = {"X":X,"Y":Y}
 del X,Y
@@ -134,7 +124,7 @@ if info is None:
     raise SystemExit("Regression could not be performed.")
     
 YPrd = line(Xpopped, info)
-del Xpopped,Ypopped
+del Xpopped
 #print info on console
 clear()
 print(f"ŷ = {info['b']:.3f}x + {info['a']:.3f}")
