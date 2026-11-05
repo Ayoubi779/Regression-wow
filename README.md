@@ -106,7 +106,7 @@ $\bar{x} = \frac{1}{n} \sum_{i=1}^{n} x_i$
 
 **Population covariance**
 
-$\sigma_{XY} = \frac{1}{n} \sum_{i=1}^{n} (x_i - \bar{x})(y_i - \bar{y})$
+$COV(X,Y) = \frac{1}{n} \sum_{i=1}^{n} (x_i - \bar{x})(y_i - \bar{y})$
 
 **Population standard deviation**
 
@@ -114,7 +114,7 @@ $\sigma_X = \sqrt{\frac{1}{n} \sum_{i=1}^{n} (x_i - \bar{x})^2}$
 
 **Pearson correlation coefficient**
 
-$\rho_{XY} = \frac{\sigma_{XY}}{\sigma_X \sigma_Y}$
+$\rho_{XY} = \frac{COV(X,Y)}{\sigma_X \sigma_Y}$
 
 ### Simple linear regression
 
@@ -123,11 +123,15 @@ $\rho_{XY} = \frac{\sigma_{XY}}{\sigma_X \sigma_Y}$
 The program calculates the regression equation:
 
 
-
+${\hat{y}} = a + b x$
 
 Where:
 
+$b = {\rho_{XY}} \frac{\sigma_Y}{\sigma_X}$
 
+and 
+
+$a = \bar{y} - b \bar{x}$
 
 
 The regression line minimizes the sum of squared vertical residuals.
@@ -175,7 +179,7 @@ The regression line minimizes the sum of squared vertical residuals.
 
 
 
-See the developer notes and improvement roadmap for planned features.
+See the [Developer Notes](DEVELOPER_NOTES.md) and improvement roadmap for planned features.
 
 
 
