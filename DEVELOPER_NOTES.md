@@ -37,9 +37,8 @@ The project is currently implemented in a single Python script.
 
 Calculates the coefficients of the simple linear regression equation:
 
-\[
-\hat{y}=a+bx
-\]
+
+$\hat{y}=a+bx$
 
 Where:
 - `a` is the intercept.
@@ -188,7 +187,7 @@ This is internally consistent for the regression slope because both quantities u
 
 The Pearson correlation coefficient is:
 
-$r=\frac{\operatorname{Cov}(X,Y)}{\sigma_X\sigma_Y}$
+$r=\frac{{Cov}(X,Y)}{\sigma_X\sigma_Y}$
 
 Correlation is undefined when either variable has zero standard deviation.
 
@@ -210,7 +209,7 @@ When Y is constant, the conventional coefficient of determination is undefined.
 The regression slope can also be calculated directly:
 
 
-$b=\frac{\operatorname{Cov}(X,Y)}{\operatorname{Var}(X)}$
+$b=\frac{{Cov}(X,Y)}{{Var}(X)}$
 
 
 And the intercept:
